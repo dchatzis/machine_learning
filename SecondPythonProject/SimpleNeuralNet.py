@@ -106,7 +106,7 @@ print(f"decisions = \n{yhat}")
 
 plt_layer(X,Y.reshape(-1,),W1,b1,norm_l)
 
-plt_output_unit(W2,b2)
+#plt_output_unit(W2,b2)
 
-netf= lambda x : model.predict(norm_l(x))
-plt_network(X,Y,netf)
+#netf= lambda x : model.predict(norm_l(x))
+#plt_network(X,Y,netf)
