@@ -90,7 +90,7 @@ for i in range(len(predictions)):
         yhat[i] = 1
     else:
         yhat[i] = 0
-print(f"decisions = \n{yhat}")
-yhat = (predictions >= 0.5).astype(int)
-print(f"decisions = \n{yhat}")
+print(f"decisions = \n{yhat.T}")
+#yhat = (predictions >= 0.5).astype(int)
+#print(f"decisions = \n{yhat.T}")
 print(f"true results = \n{results}")

@@ -21,7 +21,7 @@ x_mesh += np.random.uniform(-noise_amplitude, noise_amplitude, x_mesh.shape)
 y_mesh += np.random.uniform(-noise_amplitude, noise_amplitude, y_mesh.shape)
 
 # Compute the grid classification
-alpha = 3.0
+alpha = 2.0
 z_mesh = np.vectorize(is_within_box)(x_mesh, y_mesh, alpha)
 
 # Plot the results
@@ -45,14 +45,7 @@ np.savez('mesh_data.npz', x_mesh=x_mesh, y_mesh=y_mesh, z_mesh=z_mesh)
 ## Example
 # Define the size of the box
 # Define some example points (x, y)
-test_points = [
-    (2.5, 1.5),
-    (-0.6, 0.3),
-    (1.0, 0.0),
-    (0.0, 1.0),
-    (-3.7, -1.7),
-    (4.2, 2.8)
-]
+test_points = np.column_stack((x_vals, y_vals))
 
 # Check if each point is within the box
 results = np.zeros(len(test_points))
