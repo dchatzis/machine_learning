@@ -42,7 +42,7 @@ tf.random.set_seed(1234)  # applied to achieve consistent results
 model = Sequential(
     [
         tf.keras.Input(shape=(2,)),
-        Dense(4, activation='sigmoid', name = 'layer1'),
+        Dense(4, activation='relu', name = 'layer1'),
         Dense(1, activation='sigmoid', name = 'layer2')
      ]
 )

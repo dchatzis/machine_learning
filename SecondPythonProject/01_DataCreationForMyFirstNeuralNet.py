@@ -11,17 +11,17 @@ def is_within_box(x, y, alpha):
     return 0
 
 # Create linear mesh grid with noise
-x_vals = np.linspace(-5, 5, 30)
-y_vals = np.linspace(-3, 3, 30)
+x_vals = np.linspace(-10, 10, 50)
+y_vals = np.linspace(-7.5, 7.5, 50)
 x_mesh, y_mesh = np.meshgrid(x_vals, y_vals)
 
 # Add random noise
-noise_amplitude = 0.52
+noise_amplitude = 1.12
 x_mesh += np.random.uniform(-noise_amplitude, noise_amplitude, x_mesh.shape)
 y_mesh += np.random.uniform(-noise_amplitude, noise_amplitude, y_mesh.shape)
 
 # Compute the grid classification
-alpha = 2.0
+alpha = 4.2
 z_mesh = np.vectorize(is_within_box)(x_mesh, y_mesh, alpha)
 
 # Plot the results
