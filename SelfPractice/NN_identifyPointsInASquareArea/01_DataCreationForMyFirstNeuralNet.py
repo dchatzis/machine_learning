@@ -16,7 +16,7 @@ x2_vals = np.linspace(-10, 10, 100)
 x1_mesh, x2_mesh = np.meshgrid(x1_vals, x2_vals)
 
 # Add random noise
-noise_amplitude = 1.15
+noise_amplitude = 0.75
 x1_mesh += np.random.uniform(-noise_amplitude, noise_amplitude, x1_mesh.shape)
 x2_mesh += np.random.uniform(-noise_amplitude, noise_amplitude, x2_mesh.shape)
 

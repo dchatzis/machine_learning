@@ -4,6 +4,8 @@ from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense
 import numpy as np
 from sklearn.model_selection import train_test_split
+import matplotlib.pyplot as plt
+import matplotlib.patches as patches
 
 # Load the data
 data = np.load('flat_data.npz')
@@ -107,3 +109,36 @@ for i in range(len(predictions)):
 
 caterr = eval_cat_err(Y_test, y_test_hat)
 print(caterr)
+
+caterr = eval_cat_err(Y_test, y_test_hat)
+print(caterr)
+
+# Plot misclassified points
+incorrect_idx = np.where(y_test_hat != Y_test)[0]
+x1_wrong = X_test[incorrect_idx, 0]
+x2_wrong = X_test[incorrect_idx, 1]
+
+plt.figure(figsize=(6,6))
+
+# Plot incorrect points
+plt.scatter(x1_wrong, x2_wrong, color='red', marker='o', label='Incorrect')
+
+# Plot true decision boundary: square centered at origin with side length 10
+square = patches.Rectangle(
+    (-2.5, -2.5),  # bottom-left corner
+    5,        # width
+    5,        # height
+    edgecolor='green',
+    facecolor='none',
+    linewidth=2,
+    label='True Boundary (box, α=5)'
+)
+plt.gca().add_patch(square)
+
+plt.xlabel('x1')
+plt.ylabel('x2')
+plt.title('Misclassified Points with True Decision Boundary')
+plt.grid(True)
+plt.axis('equal')
+plt.legend()
+plt.show()
