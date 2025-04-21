@@ -45,9 +45,10 @@ tf.random.set_seed(1234)  # applied to achieve consistent results
 model = Sequential(
     [
         tf.keras.Input(shape=(2,)),
-        Dense(10, activation='relu', name = 'layer1'),
-        Dense(4, activation='relu', name='layer2'),
-        Dense(1, activation='linear', name = 'layer3')
+        Dense(12, activation='relu', name = 'layer1'),
+        Dense(8, activation='relu', name='layer2'),
+        Dense(4, activation='relu', name='layer3'),
+        Dense(1, activation='linear', name = 'layer4')
      ]
 )
 #
