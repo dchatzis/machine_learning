@@ -6,15 +6,15 @@ import matplotlib.pyplot as plt
 from autils import *
 
 import logging
+
 logging.getLogger("tensorflow").setLevel(logging.ERROR)
 tf.autograph.set_verbosity(0)
 
 # load dataset
 X, y = load_data()
 
-
-print ('The shape of X is: ' + str(X.shape))
-print ('The shape of y is: ' + str(y.shape))
+print('The shape of X is: ' + str(X.shape))
+print('The shape of y is: ' + str(y.shape))
 
 import warnings
 
@@ -43,32 +43,33 @@ for i, ax in enumerate(axes.flat):
 
 plt.show()
 
-
 # UNQ_C1
 # GRADED CELL: Sequential model
 
 model = Sequential(
     [
-        tf.keras.Input(shape=(400,)),    #specify input size
+        tf.keras.Input(shape=(400, )),  #specify input size
         ### START CODE HERE ###
-        Dense(25, activation='sigmoid', name = 'layer1'),
-        Dense(15, activation='sigmoid', name = 'layer2'),
-        Dense(1, activation='sigmoid', name = 'layer3')
+        Dense(25, activation='sigmoid', name='layer1'),
+        Dense(15, activation='sigmoid', name='layer2'),
+        Dense(1, activation='sigmoid', name='layer3')
         ### END CODE HERE ###
-    ], name = "my_model"
-)
+    ],
+    name="my_model")
 
 L1_num_params = 400 * 25 + 25  # W1 parameters  + b1 parameters
-L2_num_params = 25 * 15 + 15   # W2 parameters  + b2 parameters
-L3_num_params = 15 * 1 + 1     # W3 parameters  + b3 parameters
-print("L1 params = ", L1_num_params, ", L2 params = ", L2_num_params, ",  L3 params = ", L3_num_params )
+L2_num_params = 25 * 15 + 15  # W2 parameters  + b2 parameters
+L3_num_params = 15 * 1 + 1  # W3 parameters  + b3 parameters
+print(
+    "L1 params = ", L1_num_params, ", L2 params = ", L2_num_params, ",  L3 params = ",
+    L3_num_params)
 
 [layer1, layer2, layer3] = model.layers
 
 #### Examine Weights shapes
-W1,b1 = layer1.get_weights()
-W2,b2 = layer2.get_weights()
-W3,b3 = layer3.get_weights()
+W1, b1 = layer1.get_weights()
+W2, b2 = layer2.get_weights()
+W3, b3 = layer3.get_weights()
 print(f"W1 shape = {W1.shape}, b1 shape = {b1.shape}")
 print(f"W2 shape = {W2.shape}, b2 shape = {b2.shape}")
 print(f"W3 shape = {W3.shape}, b3 shape = {b3.shape}")
@@ -80,15 +81,11 @@ model.compile(
     optimizer=tf.keras.optimizers.Adam(0.001),
 )
 
-model.fit(
-    X,y,
-    epochs=20
-)
+model.fit(X, y, epochs=20)
 
-
-prediction = model.predict(X[0].reshape(1,400))  # a zero
+prediction = model.predict(X[0].reshape(1, 400))  # a zero
 print(f" predicting a zero: {prediction}")
-prediction = model.predict(X[500].reshape(1,400))  # a one
+prediction = model.predict(X[500].reshape(1, 400))  # a one
 print(f" predicting a one:  {prediction}")
 
 if prediction >= 0.5:
@@ -131,10 +128,10 @@ for i, ax in enumerate(axes.flat):
 fig.suptitle("Label, yhat", fontsize=16)
 plt.show()
 
+##### NUMPY MY DENSE
+##### NUMPY MY DENSE
+##### NUMPY MY DENSE
 
-##### NUMPY MY DENSE
-##### NUMPY MY DENSE
-##### NUMPY MY DENSE
 
 def my_dense(a_in, W, b, g):
     """
@@ -149,44 +146,47 @@ def my_dense(a_in, W, b, g):
     """
     units = W.shape[1]
     a_out = np.zeros(units)
-### START CODE HERE ###
+    ### START CODE HERE ###
     for j in range(units):
-        w = W[:,j]
+        w = W[:, j]
         z = np.dot(w, a_in) + b[j]
         a_out[j] = g(z)
 ### END CODE HERE ###
-    return(a_out)
+    return (a_out)
+
 
 # Quick Check
-x_tst = 0.1*np.arange(1,3,1).reshape(2,)  # (1 examples, 2 features)
-W_tst = 0.1*np.arange(1,7,1).reshape(2,3) # (2 input features, 3 output features)
-b_tst = 0.1*np.arange(1,4,1).reshape(3,)  # (3 features)
+x_tst = 0.1 * np.arange(1, 3, 1).reshape(2, )  # (1 examples, 2 features)
+W_tst = 0.1 * np.arange(1, 7, 1).reshape(2, 3)  # (2 input features, 3 output features)
+b_tst = 0.1 * np.arange(1, 4, 1).reshape(3, )  # (3 features)
 A_tst = my_dense(x_tst, W_tst, b_tst, sigmoid)
 print(A_tst)
 
+
 def my_sequential(x, W1, b1, W2, b2, W3, b3):
-    a1 = my_dense(x,  W1, b1, sigmoid)
+    a1 = my_dense(x, W1, b1, sigmoid)
     a2 = my_dense(a1, W2, b2, sigmoid)
     a3 = my_dense(a2, W3, b3, sigmoid)
-    return(a3)
+    return (a3)
 
-W1_tmp,b1_tmp = layer1.get_weights()
-W2_tmp,b2_tmp = layer2.get_weights()
-W3_tmp,b3_tmp = layer3.get_weights()
+
+W1_tmp, b1_tmp = layer1.get_weights()
+W2_tmp, b2_tmp = layer2.get_weights()
+W3_tmp, b3_tmp = layer3.get_weights()
 
 # make predictions
-prediction = my_sequential(X[0], W1_tmp, b1_tmp, W2_tmp, b2_tmp, W3_tmp, b3_tmp )
+prediction = my_sequential(X[0], W1_tmp, b1_tmp, W2_tmp, b2_tmp, W3_tmp, b3_tmp)
 if prediction >= 0.5:
     yhat = 1
 else:
     yhat = 0
-print( "yhat = ", yhat, " label= ", y[0,0])
-prediction = my_sequential(X[500], W1_tmp, b1_tmp, W2_tmp, b2_tmp, W3_tmp, b3_tmp )
+print("yhat = ", yhat, " label= ", y[0, 0])
+prediction = my_sequential(X[500], W1_tmp, b1_tmp, W2_tmp, b2_tmp, W3_tmp, b3_tmp)
 if prediction >= 0.5:
     yhat = 1
 else:
     yhat = 0
-print( "yhat = ", yhat, " label= ", y[500,0])
+print("yhat = ", yhat, " label= ", y[500, 0])
 
 import warnings
 
@@ -223,18 +223,17 @@ for i, ax in enumerate(axes.flat):
 fig.suptitle("Label, yhat Tensorflow, yhat Numpy", fontsize=16)
 plt.show()
 
-
 ##### VECTORIZATION
 ##### VECTORIZATION
 ##### VECTORIZATION
-x = X[0].reshape(-1,1)         # column vector (400,1)
-z1 = np.matmul(x.T,W1) + b1    # (1,400)(400,25) = (1,25)
+x = X[0].reshape(-1, 1)  # column vector (400,1)
+z1 = np.matmul(x.T, W1) + b1  # (1,400)(400,25) = (1,25)
 a1 = sigmoid(z1)
 print(a1.shape)
 
-
 # UNQ_C3
 # UNGRADED FUNCTION: my_dense_v
+
 
 def my_dense_v(A_in, W, b, g):
     """
@@ -254,27 +253,30 @@ def my_dense_v(A_in, W, b, g):
     ### END CODE HERE ###
     return (A_out)
 
-X_tst = 0.1*np.arange(1,9,1).reshape(4,2) # (4 examples, 2 features)
-W_tst = 0.1*np.arange(1,7,1).reshape(2,3) # (2 input features, 3 output features)
-b_tst = 0.1*np.arange(1,4,1).reshape(1,3) # (1,3 features)
+
+X_tst = 0.1 * np.arange(1, 9, 1).reshape(4, 2)  # (4 examples, 2 features)
+W_tst = 0.1 * np.arange(1, 7, 1).reshape(2, 3)  # (2 input features, 3 output features)
+b_tst = 0.1 * np.arange(1, 4, 1).reshape(1, 3)  # (1,3 features)
 A_tst = my_dense_v(X_tst, W_tst, b_tst, sigmoid)
 print(A_tst)
 
+
 def my_sequential_v(X, W1, b1, W2, b2, W3, b3):
-    A1 = my_dense_v(X,  W1, b1, sigmoid)
+    A1 = my_dense_v(X, W1, b1, sigmoid)
     A2 = my_dense_v(A1, W2, b2, sigmoid)
     A3 = my_dense_v(A2, W3, b3, sigmoid)
-    return(A3)
+    return (A3)
 
-W1_tmp,b1_tmp = layer1.get_weights()
-W2_tmp,b2_tmp = layer2.get_weights()
-W3_tmp,b3_tmp = layer3.get_weights()
 
-Prediction = my_sequential_v(X, W1_tmp, b1_tmp, W2_tmp, b2_tmp, W3_tmp, b3_tmp )
+W1_tmp, b1_tmp = layer1.get_weights()
+W2_tmp, b2_tmp = layer2.get_weights()
+W3_tmp, b3_tmp = layer3.get_weights()
+
+Prediction = my_sequential_v(X, W1_tmp, b1_tmp, W2_tmp, b2_tmp, W3_tmp, b3_tmp)
 Prediction.shape
 
 Yhat = (Prediction >= 0.5).astype(int)
-print("predict a zero: ",Yhat[0], "predict a one: ", Yhat[500])
+print("predict a zero: ", Yhat[0], "predict a one: ", Yhat[500])
 
 import warnings
 
@@ -302,7 +304,6 @@ for i, ax in enumerate(axes.flat):
     ax.set_axis_off()
 fig.suptitle("Label, Yhat", fontsize=16)
 plt.show()
-
 
 fig = plt.figure(figsize=(1, 1))
 errors = np.where(y != Yhat)

@@ -3,6 +3,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 #plt.style.use('./deeplearning.mplstyle')
 
+
 def compute_model_output(x, w, b):
     """
     Computes the prediction of a linear model
@@ -18,6 +19,7 @@ def compute_model_output(x, w, b):
         f_wb[i] = w * x[i] + b
 
     return f_wb
+
 
 def compute_cost(x, y, w, b):
     """
@@ -38,11 +40,12 @@ def compute_cost(x, y, w, b):
     cost_sum = 0
     for i in range(m):
         f_wb = w * x[i] + b
-        cost = (f_wb - y[i]) ** 2
+        cost = (f_wb - y[i])**2
         cost_sum = cost_sum + cost
     total_cost = (1 / (2 * m)) * cost_sum
 
     return total_cost
+
 
 def compute_gradient(x, y, w, b):
     """
@@ -71,6 +74,7 @@ def compute_gradient(x, y, w, b):
     dj_db = dj_db / m
 
     return dj_dw, dj_db
+
 
 def gradient_descent(x, y, w_in, b_in, alpha, num_iters, cost_function, gradient_function):
     """
@@ -113,11 +117,12 @@ def gradient_descent(x, y, w_in, b_in, alpha, num_iters, cost_function, gradient
             p_history.append([w, b])
         # Print cost every at intervals 10 times or as many iterations if < 10
         if i % math.ceil(num_iters / 10) == 0:
-            print(f"Iteration {i:4}: Cost {J_history[-1]:0.2e} ",
-                  f"dj_dw: {dj_dw: 0.3e}, dj_db: {dj_db: 0.3e}  ",
-                  f"w: {w: 0.3e}, b:{b: 0.5e}")
+            print(
+                f"Iteration {i:4}: Cost {J_history[-1]:0.2e} ",
+                f"dj_dw: {dj_dw: 0.3e}, dj_db: {dj_db: 0.3e}  ", f"w: {w: 0.3e}, b:{b: 0.5e}")
 
     return w, b, J_history, p_history  # return w and J,w history for graphing
+
 
 ########################################################################################################################
 ########################################################################################################################
@@ -127,7 +132,14 @@ def gradient_descent(x, y, w_in, b_in, alpha, num_iters, cost_function, gradient
 #x_train = np.array([1.0, 2.0])
 #y_train = np.array([300.0, 500.0])
 x_train = np.array([1.0, 1.7, 2.0, 2.5, 3.0, 3.2])
-y_train = np.array([250, 300, 480,  430,   630, 730,])
+y_train = np.array([
+    250,
+    300,
+    480,
+    430,
+    630,
+    730,
+])
 
 print(f"x_train = {x_train}")
 print(f"y_train = {y_train}")
@@ -138,7 +150,6 @@ for i in range(m):
     x_i = x_train[i]
     y_i = y_train[i]
     print(f"(x^({i}), y^({i})) = ({x_i}, {y_i})")
-
 
 # m is the number of training examples
 print(f"x_train.shape: {x_train.shape}")
@@ -160,14 +171,18 @@ b = 2.5
 print(f"w: {w}")
 print(f"b: {b}")
 
-tmp_f_wb = compute_model_output(x_train, w, b,)
+tmp_f_wb = compute_model_output(
+    x_train,
+    w,
+    b,
+)
 
 # Plot our model prediction
 # Plot our model prediction
-plt.plot(x_train, tmp_f_wb, c='b',label='Our Prediction')
+plt.plot(x_train, tmp_f_wb, c='b', label='Our Prediction')
 
 # Plot the data points
-plt.scatter(x_train, y_train, marker='x', c='r',label='Actual Values')
+plt.scatter(x_train, y_train, marker='x', c='r', label='Actual Values')
 
 # Set the title
 plt.title("Housing Prices")
@@ -186,20 +201,22 @@ b_init = 0
 iterations = 100000
 tmp_alpha = 1.0e-3
 # run gradient descent
-w_final, b_final, J_hist, p_hist = gradient_descent(x_train ,y_train, w_init, b_init, tmp_alpha,
-                                                    iterations, compute_cost, compute_gradient)
+w_final, b_final, J_hist, p_hist = gradient_descent(
+    x_train, y_train, w_init, b_init, tmp_alpha, iterations, compute_cost, compute_gradient)
 print(f"(w,b) found by gradient descent: ({w_final:8.4f},{b_final:8.4f})")
 
 # plot cost versus iteration
-fig, (ax1, ax2) = plt.subplots(1, 2, constrained_layout=True, figsize=(12,4))
+fig, (ax1, ax2) = plt.subplots(1, 2, constrained_layout=True, figsize=(12, 4))
 ax1.plot(J_hist[:100])
 ax2.plot(1000 + np.arange(len(J_hist[1000:])), J_hist[1000:])
-ax1.set_title("Cost vs. iteration(start)");  ax2.set_title("Cost vs. iteration (end)")
-ax1.set_ylabel('Cost')            ;  ax2.set_ylabel('Cost')
-ax1.set_xlabel('iteration step')  ;  ax2.set_xlabel('iteration step')
+ax1.set_title("Cost vs. iteration(start)")
+ax2.set_title("Cost vs. iteration (end)")
+ax1.set_ylabel('Cost')
+ax2.set_ylabel('Cost')
+ax1.set_xlabel('iteration step')
+ax2.set_xlabel('iteration step')
 plt.show()
 
 print(f"1000 sqft house prediction {w_final*1.0 + b_final:0.1f} Thousand dollars")
 print(f"1200 sqft house prediction {w_final*1.2 + b_final:0.1f} Thousand dollars")
 print(f"2000 sqft house prediction {w_final*2.0 + b_final:0.1f} Thousand dollars")
-

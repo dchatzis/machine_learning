@@ -1,18 +1,25 @@
-import numpy as np    # it is an unofficial standard to use np for numpy
+import numpy as np  # it is an unofficial standard to use np for numpy
 import time
 
 # NumPy routines which allocate memory and fill arrays with value
-a = np.zeros(4);                print(f"np.zeros(4) :   a = {a}, a shape = {a.shape}, a data type = {a.dtype}")
-a = np.zeros((4,));             print(f"np.zeros(4,) :  a = {a}, a shape = {a.shape}, a data type = {a.dtype}")
-a = np.random.random_sample(4); print(f"np.random.random_sample(4): a = {a}, a shape = {a.shape}, a data type = {a.dtype}")
+a = np.zeros(4)
+print(f"np.zeros(4) :   a = {a}, a shape = {a.shape}, a data type = {a.dtype}")
+a = np.zeros((4, ))
+print(f"np.zeros(4,) :  a = {a}, a shape = {a.shape}, a data type = {a.dtype}")
+a = np.random.random_sample(4)
+print(f"np.random.random_sample(4): a = {a}, a shape = {a.shape}, a data type = {a.dtype}")
 
 # NumPy routines which allocate memory and fill arrays with value but do not accept shape as input argument
-a = np.arange(4);              print(f"np.arange(4.):     a = {a}, a shape = {a.shape}, a data type = {a.dtype}")
-a = np.random.rand(4);         print(f"np.random.rand(4): a = {a}, a shape = {a.shape}, a data type = {a.dtype}")
+a = np.arange(4)
+print(f"np.arange(4.):     a = {a}, a shape = {a.shape}, a data type = {a.dtype}")
+a = np.random.rand(4)
+print(f"np.random.rand(4): a = {a}, a shape = {a.shape}, a data type = {a.dtype}")
 
 # NumPy routines which allocate memory and fill with user specified values
-a = np.array([5,4,3,2]);  print(f"np.array([5,4,3,2]):  a = {a},     a shape = {a.shape}, a data type = {a.dtype}")
-a = np.array([5.,4,3,2]); print(f"np.array([5.,4,3,2]): a = {a}, a shape = {a.shape}, a data type = {a.dtype}")
+a = np.array([5, 4, 3, 2])
+print(f"np.array([5,4,3,2]):  a = {a},     a shape = {a.shape}, a data type = {a.dtype}")
+a = np.array([5., 4, 3, 2])
+print(f"np.array([5.,4,3,2]): a = {a}, a shape = {a.shape}, a data type = {a.dtype}")
 
 ##################################################
 ##################################################
@@ -31,7 +38,7 @@ print(f"a[-1] = {a[-1]}")
 
 #indexs must be within the range of the vector or they will produce and error
 try:
-    c = a[9+1]
+    c = a[9 + 1]
     print(c)
 except Exception as e:
     print("The error message you'll see is:")
@@ -47,25 +54,24 @@ a = np.arange(10)
 print(f"a         = {a}")
 
 # access 5 consecutive elements (start:stop:step)
-c = a[2:7:1];
+c = a[2:7:1]
 print("a[2:7:1] = ", c)
 
 # access 3 elements separated by two
-c = a[2:7:2];
+c = a[2:7:2]
 print("a[2:7:2] = ", c)
 
 # access all elements index 3 and above
-c = a[3:];
+c = a[3:]
 print("a[3:]    = ", c)
 
 # access all elements below index 3
-c = a[:3];
+c = a[:3]
 print("a[:3]    = ", c)
 
 # access all elements
-c = a[:];
+c = a[:]
 print("a[:]     = ", c)
-
 
 ##################################################
 ##################################################
@@ -85,10 +91,8 @@ print(f"b = np.sum(a) : {b}")
 b = np.mean(a)
 print(f"b = np.mean(a): {b}")
 
-b = a ** 2
+b = a**2
 print(f"b = a**2      : {b}")
-
-
 
 ##################################################
 ##################################################
@@ -123,6 +127,7 @@ print(f"b = 5 * a : {b}")
 print("################################")
 print("################################")
 
+
 def my_dot(a, b):
     """
    Compute the dot product of two vectors
@@ -138,6 +143,7 @@ def my_dot(a, b):
     for i in range(a.shape[0]):
         x = x + a[i] * b[i]
     return x
+
 
 ##################################################
 ##################################################
@@ -179,13 +185,14 @@ print(f"np.dot(a, b) =  {c:.4f}")
 print(f"Vectorized version duration: {1000*(toc-tic):.4f} ms ")
 
 tic = time.time()  # capture start time
-c = my_dot(a,b)
+c = my_dot(a, b)
 toc = time.time()  # capture end time
 
 print(f"my_dot(a, b) =  {c:.4f}")
 print(f"loop version duration: {1000*(toc-tic):.4f} ms ")
 
-del(a);del(b)  #remove these big arrays from memory
+del (a)
+del (b)  #remove these big arrays from memory
 
 ##################################################
 ##################################################
@@ -193,14 +200,13 @@ print("################################")
 print("################################")
 
 # show common Course 1 example
-X = np.array([[1],[2],[3],[4]])
+X = np.array([[1], [2], [3], [4]])
 w = np.array([2])
 c = np.dot(X[1], w)
 
 print(f"X[1] has shape {X[1].shape}")
 print(f"w has shape {w.shape}")
 print(f"c has shape {c.shape}")
-
 
 ##################################################
 ##################################################
@@ -222,10 +228,14 @@ print("################################")
 print("################################")
 
 # NumPy routines which allocate memory and fill with user specified values
-a = np.array([[5], [4], [3]]);   print(f" a shape = {a.shape}, np.array: a = {a}")
-a = np.array([[5],   # One can also
-              [4],   # separate values
-              [3]]); #into separate rows
+a = np.array([[5], [4], [3]])
+print(f" a shape = {a.shape}, np.array: a = {a}")
+a = np.array([
+    [5],  # One can also
+    [4],  # separate values
+    [3]
+])
+#into separate rows
 print(f" a shape = {a.shape}, np.array: a = {a}")
 
 ##################################################
@@ -234,15 +244,16 @@ print("################################")
 print("################################")
 
 #vector indexing operations on matrices
-a = np.arange(6).reshape(-1, 2)   #reshape is a convenient way to create matrices
+a = np.arange(6).reshape(-1, 2)  #reshape is a convenient way to create matrices
 print(f"a.shape: {a.shape}, \na= {a}")
 
 #access an element
-print(f"\na[2,0].shape:   {a[2, 0].shape}, a[2,0] = {a[2, 0]},     type(a[2,0]) = {type(a[2, 0])} Accessing an element returns a scalar\n")
+print(
+    f"\na[2,0].shape:   {a[2, 0].shape}, a[2,0] = {a[2, 0]},     type(a[2,0]) = {type(a[2, 0])} Accessing an element returns a scalar\n"
+)
 
 #access a row
 print(f"a[2].shape:   {a[2].shape}, a[2]   = {a[2]}, type(a[2])   = {type(a[2])}")
-
 
 ##################################################
 ##################################################
@@ -260,9 +271,9 @@ print("a[0, 2:7:1] = ", a[0, 2:7:1], ",  a[0, 2:7:1].shape =", a[0, 2:7:1].shape
 print("a[:, 2:7:1] = \n", a[:, 2:7:1], ",  a[:, 2:7:1].shape =", a[:, 2:7:1].shape, "a 2-D array")
 
 # access all elements
-print("a[:,:] = \n", a[:,:], ",  a[:,:].shape =", a[:,:].shape)
+print("a[:,:] = \n", a[:, :], ",  a[:,:].shape =", a[:, :].shape)
 
 # access all elements in one row (very common usage)
-print("a[1,:] = ", a[1,:], ",  a[1,:].shape =", a[1,:].shape, "a 1-D array")
+print("a[1,:] = ", a[1, :], ",  a[1,:].shape =", a[1, :].shape, "a 1-D array")
 # same as
-print("a[1]   = ", a[1],   ",  a[1].shape   =", a[1].shape, "a 1-D array")
+print("a[1]   = ", a[1], ",  a[1].shape   =", a[1].shape, "a 1-D array")

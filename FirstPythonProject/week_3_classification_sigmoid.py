@@ -1,10 +1,11 @@
 import numpy as np
 #matplotlib widget
 import matplotlib.pyplot as plt
+
 plt.style.use('./deeplearning.mplstyle')
 
 # Input is an array.
-input_array = np.array([1,2,3])
+input_array = np.array([1, 2, 3])
 exp_array = np.exp(input_array)
 
 print("Input to exp:", input_array)
@@ -36,7 +37,7 @@ def sigmoid(z):
 
 
 # Generate an array of evenly spaced values between -10 and 10
-z_tmp = np.arange(-10,11)
+z_tmp = np.arange(-10, 11)
 
 # Use the function implemented above to get the sigmoid values
 y = sigmoid(z_tmp)
@@ -47,7 +48,7 @@ print("Input (z), Output (sigmoid(z))")
 print(np.c_[z_tmp, y])
 
 # Plot z vs sigmoid(z)
-fig,ax = plt.subplots(1,1,figsize=(5,3))
+fig, ax = plt.subplots(1, 1, figsize=(5, 3))
 ax.plot(z_tmp, y, c="b")
 
 ax.set_title("Sigmoid function")

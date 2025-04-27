@@ -2,14 +2,15 @@ import copy, math
 import numpy as np
 #%matplotlib widget
 import matplotlib.pyplot as plt
-from lab_utils_common2 import  dlc, plot_data, plt_tumor_data, sigmoid, compute_cost_logistic
+from lab_utils_common2 import dlc, plot_data, plt_tumor_data, sigmoid, compute_cost_logistic
 from plt_quad_logistic import plt_quad_logistic, plt_prob
+
 plt.style.use('./deeplearning.mplstyle')
 
-X_train = np.array([[0.5, 1.5], [1,1], [1.5, 0.5], [3, 0.5], [2, 2], [1, 2.5]])
+X_train = np.array([[0.5, 1.5], [1, 1], [1.5, 0.5], [3, 0.5], [2, 2], [1, 2.5]])
 y_train = np.array([0, 0, 0, 1, 1, 1])
 
-fig,ax = plt.subplots(1,1,figsize=(4,4))
+fig, ax = plt.subplots(1, 1, figsize=(4, 4))
 plot_data(X_train, y_train, ax)
 
 ax.axis([0, 4, 0, 3.5])
@@ -32,7 +33,7 @@ def compute_gradient_logistic(X, y, w, b):
       dj_db (scalar)      : The gradient of the cost w.r.t. the parameter b.
     """
     m, n = X.shape
-    dj_dw = np.zeros((n,))  # (n,)
+    dj_dw = np.zeros((n, ))  # (n,)
     dj_db = 0.
 
     for i in range(m):
@@ -46,13 +47,14 @@ def compute_gradient_logistic(X, y, w, b):
 
     return dj_db, dj_dw
 
-X_tmp = np.array([[0.5, 1.5], [1,1], [1.5, 0.5], [3, 0.5], [2, 2], [1, 2.5]])
+
+X_tmp = np.array([[0.5, 1.5], [1, 1], [1.5, 0.5], [3, 0.5], [2, 2], [1, 2.5]])
 y_tmp = np.array([0, 0, 0, 1, 1, 1])
-w_tmp = np.array([2.,3.])
+w_tmp = np.array([2., 3.])
 b_tmp = 1.
 dj_db_tmp, dj_dw_tmp = compute_gradient_logistic(X_tmp, y_tmp, w_tmp, b_tmp)
-print(f"dj_db: {dj_db_tmp}" )
-print(f"dj_dw: {dj_dw_tmp.tolist()}" )
+print(f"dj_db: {dj_db_tmp}")
+print(f"dj_dw: {dj_dw_tmp.tolist()}")
 
 
 def gradient_descent(X, y, w_in, b_in, alpha, num_iters):
@@ -95,15 +97,15 @@ def gradient_descent(X, y, w_in, b_in, alpha, num_iters):
     return w, b, J_history  # return final w,b and J history for graphing
 
 
-w_tmp  = np.zeros_like(X_train[0])
-b_tmp  = 0.
+w_tmp = np.zeros_like(X_train[0])
+b_tmp = 0.
 alph = 0.1
 iters = 10000
 
 w_out, b_out, _ = gradient_descent(X_train, y_train, w_tmp, b_tmp, alph, iters)
 print(f"\nupdated parameters: w:{w_out}, b:{b_out}")
 
-fig,ax = plt.subplots(1,1,figsize=(5,4))
+fig, ax = plt.subplots(1, 1, figsize=(5, 4))
 # plot the probability
 plt_prob(ax, w_out, b_out)
 
@@ -111,11 +113,10 @@ plt_prob(ax, w_out, b_out)
 ax.set_ylabel(r'$x_1$')
 ax.set_xlabel(r'$x_0$')
 ax.axis([0, 4, 0, 3.5])
-plot_data(X_train,y_train,ax)
+plot_data(X_train, y_train, ax)
 
 # Plot the decision boundary
-x0 = -b_out/w_out[0]
-x1 = -b_out/w_out[1]
-ax.plot([0,x0],[x1,0], c=dlc["dlblue"], lw=1)
+x0 = -b_out / w_out[0]
+x1 = -b_out / w_out[1]
+ax.plot([0, x0], [x1, 0], c=dlc["dlblue"], lw=1)
 plt.show()
-
