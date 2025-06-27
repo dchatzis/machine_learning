@@ -1,15 +1,19 @@
 from tensorflow.keras.activations import relu, linear
 from tensorflow.keras.layers import Dense
+from tensorflow.keras.optimizers import Adam
 
 import numpy as np
 
-def test_tower(target):
-    num_outputs = 32
+def test_network(target):
+    num_actions = 4
+    state_size = 8
     i = 0
     assert len(target.layers) == 3, f"Wrong number of layers. Expected 3 but got {len(target.layers)}"
-    expected = [[Dense, [None, 256], relu],
-                [Dense, [None, 128], relu],
-                [Dense, [None, num_outputs], linear]]
+    assert target.input.shape.as_list() == [None, state_size], \
+        f"Wrong input shape. Expected [None,  400] but got {target.input.shape.as_list()}" 
+    expected = [[Dense, [None, 64], relu],
+                [Dense, [None, 64], relu],
+                [Dense, [None, num_actions], linear]]
 
     for layer in target.layers:
         assert type(layer) == expected[i][0], \
@@ -21,21 +25,55 @@ def test_tower(target):
         i = i + 1
 
     print("\033[92mAll tests passed!")
-
-
-def test_sq_dist(target):
-    a1 = np.array([1.0, 2.0, 3.0]); b1 = np.array([1.0, 2.0, 3.0])
-    c1 = target(a1, b1)
-    a2 = np.array([1.1, 2.1, 3.1]); b2 = np.array([1.0, 2.0, 3.0])
-    c2 = target(a2, b2)
-    a3 = np.array([0, 1]);          b3 = np.array([1, 0])
-    c3 = target(a3, b3)
-    a4 = np.array([1, 1, 1, 1, 1]); b4 = np.array([0, 0, 0, 0, 0])
-    c4 = target(a4, b4)
     
-    assert np.isclose(c1, 0), f"Wrong value. Expected {0}, got {c1}"
-    assert np.isclose(c2, 0.03), f"Wrong value. Expected {0.03}, got {c2}" 
-    assert np.isclose(c3, 2), f"Wrong value. Expected {2}, got {c3}" 
-    assert np.isclose(c4, 5), f"Wrong value. Expected {5}, got {c4}" 
+def test_optimizer(target, ALPHA):
+    assert type(target) == Adam, f"Wrong optimizer. Expected: {Adam}, got: {target}"
+    assert np.isclose(target.learning_rate.numpy(), ALPHA), f"Wrong alpha. Expected: {ALPHA}, got: {target.learning_rate.numpy()}"
+    print("\033[92mAll tests passed!")
     
-    print('\033[92mAll tests passed!')
+    
+def test_compute_loss(target):
+    num_actions = 4
+    def target_q_network_random(inputs):
+        return np.float32(np.random.rand(inputs.shape[0],num_actions))
+    
+    def q_network_random(inputs):
+        return np.float32(np.random.rand(inputs.shape[0],num_actions))
+    
+    def target_q_network_ones(inputs):
+        return np.float32(np.ones((inputs.shape[0], num_actions)))
+    
+    def q_network_ones(inputs):
+        return np.float32(np.ones((inputs.shape[0], num_actions)))
+    
+    np.random.seed(1)
+    states = np.float32(np.random.rand(64, 8))
+    actions = np.float32(np.floor(np.random.uniform(0, 1, (64, )) * 4))
+    rewards = np.float32(np.random.rand(64, ))
+    next_states = np.float32(np.random.rand(64, 8))
+    done_vals = np.float32((np.random.uniform(0, 1, size=(64,)) > 0.96) * 1)
+
+    loss = target((states, actions, rewards, next_states, done_vals), 0.995, q_network_random, target_q_network_random)
+    
+
+    assert np.isclose(loss, 0.6991737), f"Wrong value. Expected {0.6991737}, got {loss}"
+
+    # Test when episode terminates
+    done_vals = np.float32(np.ones((64,)))
+    loss = target((states, actions, rewards, next_states, done_vals), 0.995, q_network_ones, target_q_network_ones)
+    assert np.isclose(loss, 0.343270182), f"Wrong value. Expected {0.343270182}, got {loss}"
+      
+    # Test MSE with parameters A = B
+    done_vals = np.float32((np.random.uniform(0, 1, size=(64,)) > 0.96) * 1)
+    rewards = np.float32(np.ones((64, )))
+    loss = target((states, actions, rewards, next_states, done_vals), 0, q_network_ones, target_q_network_ones)
+    assert np.isclose(loss, 0), f"Wrong value. Expected {0}, got {loss}"
+ 
+    # Test MSE with parameters A = 0 and B = 1
+    done_vals = np.float32((np.random.uniform(0, 1, size=(64,)) > 0.96) * 1)
+    rewards = np.float32(np.zeros((64, )))
+    loss = target((states, actions, rewards, next_states, done_vals), 0, q_network_ones, target_q_network_ones)
+    assert np.isclose(loss, 1), f"Wrong value. Expected {1}, got {loss}"
+
+    print("\033[92mAll tests passed!")
+    
